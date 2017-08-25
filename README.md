@@ -51,8 +51,8 @@ const name = 'last-successful-gh-commit';
 const token = process.env.GH_TOKEN;
 
 getLastSuccessfulGHCommit({ owner, name, token })
-  .then(response => {
-
+  .then(commit => {
+    console.log('Last successful commit: ', commit);
   })
   .catch(err => {
     console.error('No successful commit found', err);
