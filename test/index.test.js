@@ -2,6 +2,7 @@ import moxios from 'moxios';
 import fixtureSuccess from './fixtures/success';
 import fixtureFailureNoCursor from './fixtures/failure-no-cursor';
 import fixtureFailure from './fixtures/failure';
+import fixtureEmpty from './fixtures/empty';
 import getLastSuccessfulCommit, { graphqlEndpoint } from '../src';
 
 describe('while using getLastSuccessfulCommit() with wrong options', () => {
@@ -130,6 +131,28 @@ describe('while using getLastSuccessfulCommit()', () => {
         status: { state: 'SUCCESS' },
         message: 'Something good 8',
         oid: 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f'
+      }
+    });
+  });
+
+  it('should get last successful commit when there is a "SUCCESS" commit and also some commits with empty status', async () => {
+    // Arrange
+    const triggerGet = () =>
+      getLastSuccessfulCommit({ name: 'asd', owner: 'qwe', token: 'valid-token' });
+    moxios.stubRequest(graphqlEndpoint, {
+      status: 200,
+      responseText: fixtureEmpty
+    });
+
+    // Act
+    const [lastSuccessfulCommit] = await Promise.all([triggerGet(), moxiosWaitPromisified()]);
+
+    // Assert
+    expect(lastSuccessfulCommit).toMatchObject({
+      node: {
+        status: { state: 'SUCCESS' },
+        message: 'Something good',
+        oid: '356a192b7913b04c54574d18c28d46e6395428ab'
       }
     });
   });
