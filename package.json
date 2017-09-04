@@ -1,7 +1,7 @@
 {
   "name": "last-successful-gh-commit",
   "description": "Get last successful GitHub commit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "build/index.js",
   "scripts": {
     "build": "babel src -d build -s",
