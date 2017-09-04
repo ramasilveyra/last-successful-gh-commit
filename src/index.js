@@ -94,7 +94,7 @@ function parseResponse(response) {
 function findSuccessCommit(edges) {
   // eslint-disable-next-line no-restricted-syntax
   for (const commit of edges) {
-    if (commit.node.status.state === 'SUCCESS') {
+    if (commit.node.status && commit.node.status.state === 'SUCCESS') {
       return commit;
     }
   }
